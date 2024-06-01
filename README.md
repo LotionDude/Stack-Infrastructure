@@ -3,25 +3,25 @@
 
 The DDL for initializing the database is located at the [./data/DDL.sql](./data/DDL.sql)
 
-### Users
+## Users
 Table that holds the users. Currently only has the name of the user.
 
-### Roles
+## Roles
 Table that holds the different roles. Examples for roles include the `DEFAULT` role, `ADMIN` role, etc.
 
 This table contains the `precedence` column which is used for determining which role has higher authority than other roles. An admin role, for example, would
 have the highest precedence, compared to the default role with the lowest precedence.
 
-### Actions
+## Actions
 An action is pretty self explanatory - an action that a user can do in the application. Examples include `post message`, `post comment,` `manage permissions`, `manage others posts`, etc....
 
-### Role Permissions
+## Role Permissions
 Table that holds an `N:1` relation to the `Actions` table and the `Roles` table. With this table, we'll be able to hold all the actions a certain role can do.
 
 This table also contains the `state` property which can be of type `ENABLE | DISABLE | INHERIT`.
 This means that a role is authorized to perform an action, unauthorized to perform an action, or it will inherit its permissions from a role lower in the hierarchy.
 
-### User Roles
+## User Roles
 Table that holds an `N:1` relation to the `User` table and the `Roles` table. With this table, we'll be able to hold all the roles a user has.
 
 # Explanation
