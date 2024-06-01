@@ -21,7 +21,7 @@ Table that holds an `N:1` relation to the `Actions` table and the `Roles` table.
 This table also contains the `state` property which can be of type `ENABLE | DISABLE | INHERIT`.
 This means that a role is authorized to perform an action, unauthorized to perform an action, or it will inherit its permissions from a role lower in the hierarchy.
 
-One edge case for this is making sure all roles have row in this table for all actions. If a new action is added to the database, then this table won't even have default permissions
+One edge case for this is making sure all roles have a row in this table for all actions. If a new action is added to the database, then this table won't even have default permissions
 for that action, and manually adding a new row for each role is too time consuming. To solve this problem, the table has a `TRIGGER` that add a new row in this table for each row. It will, by default, have a state of `INHERIT`.
 The exception of this is the `DEFAULT` role having it set to `DISABLE`, and the `ADMIN` role having it set to `ENABLE`. This means all roles will be unable to
 perform this action (since they all `INHERIT` from the `DEFAULT` role which has it on the state of `DISABLE`), with the exception of the `ADMIN` role.
