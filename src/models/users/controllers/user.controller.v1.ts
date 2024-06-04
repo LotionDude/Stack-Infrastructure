@@ -1,6 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param, Query } from '@nestjs/common';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UserService } from '../user.service';
+import { RolePermissionsMapShort } from '@/models/roles/types/role-permission-state.type';
+import { RolePermissionsMapFull } from '../types/user-role-permissions.type';
 
 @ApiTags('Users')
 @Controller({ path: 'users', version: '1' })
@@ -16,5 +18,24 @@ export class UserControllerV1 {
     const user = await this.userService.getUser(name);
 
     return user.roles.map((role) => role.name);
+  }
+
+  @Get('/:name/actions')
+  @ApiQuery({ name: 'fullDetail', required: false, type: Boolean })
+  public async getActions(
+    @Param('name') name: string,
+    @Query('fullDetail') fullDetail: boolean = false,
+  ): Promise<RolePermissionsMapShort | RolePermissionsMapFull> {
+    const rolePermissionsDictionary =
+      await this.userService.getUserRolePermissions(name);
+
+    if (fullDetail) {
+      return rolePermissionsDictionary;
+    } else {
+      return Object.keys(rolePermissionsDictionary).reduce((acc, key) => {
+        acc[key] = rolePermissionsDictionary[key].state;
+        return acc;
+      }, {} as RolePermissionsMapShort);
+    }
   }
 }

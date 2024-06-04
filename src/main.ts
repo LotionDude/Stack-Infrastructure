@@ -14,6 +14,10 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Stack Infrastructure')
     .setDescription('The Stacks API description')
+    .addGlobalParameters({
+      in: 'header',
+      name: 'username',
+    })
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

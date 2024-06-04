@@ -7,6 +7,8 @@ INSERT INTO users(name) VALUES
 
 -- Insert default actions
 INSERT INTO actions (name) VALUES
+('VIEW_PERMISSIONS'),
+('MANAGE_PERMISSIONS'),
 ('MANAGE_META_TAGS'),
 ('MANAGE_MESSAGES'),
 ('MANAGE_OTHER_MESSAGES'),
@@ -19,21 +21,16 @@ INSERT INTO roles (name, precedence) VALUES
 ('DEFAULT', 0),
 ('ADMIN', 1);
 
--- Insert default role permissions
-INSERT INTO role_permissions (role_id, action_id, state) VALUES 
-((SELECT id FROM roles WHERE name='DEFAULT'), (SELECT id FROM actions WHERE name='MANAGE_META_TAGS'), 'DISABLE'),
-((SELECT id FROM roles WHERE name='DEFAULT'), (SELECT id FROM actions WHERE name='MANAGE_OTHER_MESSAGES'), 'DISABLE'),
-((SELECT id FROM roles WHERE name='DEFAULT'), (SELECT id FROM actions WHERE name='MANAGE_MESSAGES'), 'DISABLE'),
-((SELECT id FROM roles WHERE name='DEFAULT'), (SELECT id FROM actions WHERE name='MANAGE_PROFILE'), 'DISABLE'),
-((SELECT id FROM roles WHERE name='DEFAULT'), (SELECT id FROM actions WHERE name='MANAGE_OTHER_PROFILE'), 'DISABLE'),
-((SELECT id FROM roles WHERE name='DEFAULT'), (SELECT id FROM actions WHERE name='EDIT_BANNER'), 'DISABLE'),
-
-((SELECT id FROM roles WHERE name='ADMIN'), (SELECT id FROM actions WHERE name='MANAGE_META_TAGS'), 'ENABLE'),
-((SELECT id FROM roles WHERE name='ADMIN'), (SELECT id FROM actions WHERE name='MANAGE_OTHER_MESSAGES'), 'ENABLE'),
-((SELECT id FROM roles WHERE name='ADMIN'), (SELECT id FROM actions WHERE name='MANAGE_MESSAGES'), 'ENABLE'),
-((SELECT id FROM roles WHERE name='ADMIN'), (SELECT id FROM actions WHERE name='MANAGE_PROFILE'), 'ENABLE'),
-((SELECT id FROM roles WHERE name='ADMIN'), (SELECT id FROM actions WHERE name='MANAGE_OTHER_PROFILE'), 'ENABLE'),
-((SELECT id FROM roles WHERE name='ADMIN'), (SELECT id FROM actions WHERE name='EDIT_BANNER'), 'ENABLE');
+-- -- Insert default role permissions
+-- INSERT INTO role_permissions (role_id, action_id, state) VALUES 
+-- ((SELECT id FROM roles WHERE name='MUTED'), (SELECT id FROM actions WHERE name='MANAGE_META_TAGS'), 'INHERIT'),
+-- ((SELECT id FROM roles WHERE name='MUTED'), (SELECT id FROM actions WHERE name='MANAGE_OTHER_MESSAGES'), 'INHERIT'),
+-- ((SELECT id FROM roles WHERE name='MUTED'), (SELECT id FROM actions WHERE name='MANAGE_MESSAGES'), 'DISABLE'),
+-- ((SELECT id FROM roles WHERE name='MUTED'), (SELECT id FROM actions WHERE name='MANAGE_PROFILE'), 'INHERIT'),
+-- ((SELECT id FROM roles WHERE name='MUTED'), (SELECT id FROM actions WHERE name='MANAGE_OTHER_PROFILE'), 'INHERIT'),
+-- ((SELECT id FROM roles WHERE name='MUTED'), (SELECT id FROM actions WHERE name='EDIT_BANNER'), 'INHERIT'),
+-- ((SELECT id FROM roles WHERE name='MUTED'), (SELECT id FROM actions WHERE name='VIEW_PERMISSIONS'), 'INHERIT'),
+-- ((SELECT id FROM roles WHERE name='MUTED'), (SELECT id FROM actions WHERE name='MANAGE_PERMISSIONS'), 'INHERIT');
 
 -- Insert default user roles
 INSERT INTO user_roles (user_id, role_id) VALUES 

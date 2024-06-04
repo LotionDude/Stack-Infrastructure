@@ -10,6 +10,7 @@ import { RolePermission } from './entities/role-permission.entity';
 import { RoleStateType } from './types/role-permission-state.type';
 import { UpdateRolePermissionState } from './dtos/update-role-permission-state.dto';
 import { Role } from './entities/roles.entity';
+import { RequiredActions } from '@/common/decorators/metadata/required-actions.decorator';
 
 @Injectable()
 export class RolesService {
@@ -20,13 +21,13 @@ export class RolesService {
     private readonly roleRepository: Repository<Role>,
   ) {}
 
-  async getRoles(): Promise<Role[]> {
+  public async getRoles(): Promise<Role[]> {
     const roles = await this.roleRepository.find();
     roles.sort((a, b) => a.precedence - b.precedence);
     return roles;
   }
 
-  async updateRolePermissionState(
+  public async updateRolePermissionState(
     updateRolePermissionState: UpdateRolePermissionState,
   ) {
     const { roleName, actionName, state } = updateRolePermissionState;
@@ -62,7 +63,7 @@ export class RolesService {
     this.rolePermissionRepository.save(rolePermission);
   }
 
-  async getRolePermissions(name: string): Promise<RolePermission[]> {
+  public async getRolePermissions(name: string): Promise<RolePermission[]> {
     const rolePermissions = await this.rolePermissionRepository
       .createQueryBuilder('rolePermission')
       .innerJoinAndSelect('rolePermission.action', 'action')

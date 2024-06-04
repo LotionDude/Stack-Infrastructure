@@ -1,10 +1,15 @@
 import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { RolesService } from '../roles.service';
 import { UpdateRolePermissionState } from '../dtos/update-role-permission-state.dto';
-import { RoleStateType } from '../types/role-permission-state.type';
+import {
+  RolePermissionsMapShort,
+  RoleStateType,
+} from '../types/role-permission-state.type';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { RequiredActions } from '@/common/decorators/metadata/required-actions.decorator';
 
 @ApiTags('Roles')
+@RequiredActions(['VIEW_PERMISSIONS'])
 @Controller({ path: 'roles', version: '1' })
 export class RolesControllerV1 {
   constructor(private readonly rolesService: RolesService) {}
@@ -23,7 +28,7 @@ export class RolesControllerV1 {
   @ApiOperation({ summary: 'Get a list of role permissions.' })
   public async getRolePermissions(
     @Param('name') name: string,
-  ): Promise<{ [key: string]: RoleStateType }> {
+  ): Promise<RolePermissionsMapShort> {
     return (await this.rolesService.getRolePermissions(name)).reduce(
       (acc, rp) => {
         acc[rp.action.name] = rp.state;

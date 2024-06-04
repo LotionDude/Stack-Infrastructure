@@ -9,4 +9,6 @@ enum RoleStateType {
   'INHERIT' = 'INHERIT',
 }
 
+export type RolePermissionsMapShort = { [key: string]: RoleStateType };
+
 export { DefaultRoleStateType, RoleStateType };
