@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS user_roles (
 
 COMMIT;
 
-
+------ Add default role permissions for each newly added action
 BEGIN;
 
 -- Function to add default role permissions
@@ -60,3 +60,25 @@ BEGIN
     EXECUTE FUNCTION add_default_role_permissions();
   END IF;
 END $$;
+
+------ Add default role to newly added users
+BEGIN;
+
+-- Create the trigger function
+CREATE OR REPLACE FUNCTION add_default_role()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO user_roles (user_id, role_id)
+  VALUES (NEW.id, (SELECT id FROM roles WHERE name='DEFAULT'));
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create the trigger
+CREATE TRIGGER add_default_role_trigger
+AFTER INSERT ON users
+FOR EACH ROW
+EXECUTE FUNCTION add_default_role();
+
+COMMIT;

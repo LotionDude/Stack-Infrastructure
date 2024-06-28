@@ -3,6 +3,8 @@ import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { UserService } from '../user.service';
 import { RolePermissionsMapShort } from '@/models/roles/types/role-permission-state.type';
 import { RolePermissionsMapFull } from '../types/user-role-permissions.type';
+import { IsBoolean } from 'class-validator';
+import { ParseBooleanPipe } from '@/common/pipes/boolean.pipe';
 
 @ApiTags('Users')
 @Controller({ path: 'users', version: '1' })
@@ -24,7 +26,7 @@ export class UserControllerV1 {
   @ApiQuery({ name: 'fullDetail', required: false, type: Boolean })
   public async getActions(
     @Param('name') name: string,
-    @Query('fullDetail') fullDetail: boolean = false,
+    @Query('fullDetail', new ParseBooleanPipe(false)) fullDetail: boolean,
   ): Promise<RolePermissionsMapShort | RolePermissionsMapFull> {
     const rolePermissionsDictionary =
       await this.userService.getUserRolePermissions(name);

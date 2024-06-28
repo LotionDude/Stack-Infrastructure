@@ -45,6 +45,10 @@ export class UserService {
     return this.prioritizeUserRolePermissions(user.roles);
   }
 
+  /*  Given an array of roles, create a map of all the actions with their role permission state
+      and the role which grants that state. The role with the higher precedence take priority when setting the state,
+      except when the state is INHERIT. It will replace the INHERIT state with the role with lower precedence (because it
+      inherits the state from him.) */
   private prioritizeUserRolePermissions(roles: Role[]): RolePermissionsMapFull {
     const sortedRoles: Role[] = roles.sort(
       (a, b) => b.precedence - a.precedence,

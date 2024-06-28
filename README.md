@@ -1,5 +1,5 @@
 # Database Architecture
-![image](https://github.com/LotionDude/Stack-Infrastructure/assets/51326751/59b87823-bf93-4ce5-8a5f-5512a1d2deff)
+![image](./docs/sql_architecture.png)
 
 The DDL for initializing the database is located at the [./data/DDL.sql](./data/DDL.sql)
 

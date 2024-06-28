@@ -29,14 +29,11 @@ export class PermissionsGuard implements CanActivate {
     const userActions =
       await this.userService.getUserRolePermissions(requestingUser);
 
-    console.log(requestingUser);
-    console.log(userActions);
-
     return (
       userActions !== undefined &&
       requiredActions.filter(
         (actionName) => userActions[actionName].state === RoleStateType.DISABLE,
-      ).length !== 0
+      ).length === 0
     );
   }
 }
